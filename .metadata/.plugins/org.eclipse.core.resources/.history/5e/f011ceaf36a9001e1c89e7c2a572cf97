@@ -1,0 +1,20 @@
+package controller;
+
+import model.User;
+import model.UserModel;
+
+
+public class UserController {
+	
+	
+	public Boolean Login(String name,String email,String password) {
+		UserModel userModel = new UserModel();
+		User user = new User(name,email,password);
+		return userModel.login(user);
+	}
+	public Boolean register(String name,String email,String password) {
+		UserModel userModel = new UserModel();
+		User user = new User(name,email,password);
+		return userModel.register(user);
+	}
+}

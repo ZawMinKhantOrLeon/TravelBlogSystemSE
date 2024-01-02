@@ -1,0 +1,20 @@
+package controller;
+
+import model.User;
+import model.UserModel;
+
+
+public class UserController {
+	
+	
+	
+	public Boolean Login(User user) {
+		UserModel userModel = new UserModel();
+		return userModel.login(user);
+	}
+	public Boolean create(User user) {
+		
+		UserModel userModel = new UserModel();
+		return userModel.create(user);
+	}
+}

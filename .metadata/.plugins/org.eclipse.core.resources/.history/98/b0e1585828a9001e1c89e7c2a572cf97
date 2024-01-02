@@ -1,0 +1,5 @@
+package asset;
+
+public enum Operatons {
+
+}

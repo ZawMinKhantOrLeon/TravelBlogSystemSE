@@ -1,0 +1,25 @@
+package asset;
+
+public class CurrentUserSession {
+	
+	 private Long Id;
+
+	
+	public CurrentUserSession() {
+		
+	}
+
+
+	public Long getId() {
+		return Id;
+	}
+
+
+	public void setId(Long id) {
+		Id = id;
+	}
+	
+	
+	
+	
+}

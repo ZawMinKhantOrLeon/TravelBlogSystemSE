@@ -1,0 +1,25 @@
+package view;
+
+import java.util.Scanner;
+
+import controller.UserController;
+import model.User;
+
+public class UserView {
+	
+//	public Boolean create(Scanner userInput) {
+//		
+//		System.out.println("Enter Your Name");
+//		String name = userInput.next();
+//		System.out.println("Enter Your Email");
+//		String email = userInput.next();
+//		System.out.println("Enter Your Password");
+//		String password = userInput.next();
+//		
+//		User user = new User(name,email,password);
+//		
+//		UserController userController =new UserController();
+//		return userController.create(user);
+//		
+//	}
+}

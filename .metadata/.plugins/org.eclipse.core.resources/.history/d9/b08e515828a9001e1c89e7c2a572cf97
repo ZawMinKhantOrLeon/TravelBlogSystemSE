@@ -1,0 +1,39 @@
+package model;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import database.DbConnection;
+
+
+public class UserModel {
+	
+	private Connection connection;
+	private Statement stmt;
+	private PreparedStatement pstmt;
+	private ResultSet result;
+	
+	public boolean create(User user) {
+		
+		Boolean isCreated=false;
+		connection = DbConnection.getConnection();
+		try {
+			pstmt = connection.prepareStatement("INSERT INTO user VALUES (?,?,?");
+			pstmt.setString(1, user.getName());
+			pstmt.setString(2, user.getEmail());
+			pstmt.setString(3, user.getPassword());
+			
+			isCreated=pstmt.execute();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return isCreated;
+	}
+	
+}

@@ -1,0 +1,20 @@
+package asset;
+
+public class CurrentUserSession {
+	
+	final private Long Id;
+
+	
+	public CurrentUserSession(Long id) {
+		super();
+		Id = id;
+	}
+
+
+	public Long getId() {
+		return Id;
+	}
+	
+	
+	
+}

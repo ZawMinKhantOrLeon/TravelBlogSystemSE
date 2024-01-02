@@ -1,0 +1,13 @@
+package controller;
+
+import model.User;
+import model.UserModel;
+
+public class UserController {
+	
+	public boolean create(User user) {
+		
+		UserModel userModel = new UserModel();
+		return userModel.create(user);
+	}
+}

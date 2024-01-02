@@ -1,0 +1,27 @@
+package controller;
+
+import java.sql.SQLException;
+
+import model.User;
+import model.UserModel;
+
+
+public class UserController {
+	
+	
+	
+	public Boolean Login(User user) {
+		UserModel userModel = new UserModel();
+		try {
+			return userModel.login(user);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public Boolean create(User user) {
+		
+		UserModel userModel = new UserModel();
+		return userModel.create(user);
+	}
+}

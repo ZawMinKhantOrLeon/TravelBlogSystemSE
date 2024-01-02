@@ -1,0 +1,48 @@
+package entry;
+
+import java.util.Scanner;
+
+import controller.UserController;
+import model.User;
+
+public class entry {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+			
+		Scanner userInput = new Scanner(System.in);
+		System.out.println("1.Login 2.Register");
+		Integer operations = userInput.nextInt();
+		
+		switch (operations) {
+		case 1 ->{
+			
+			System.out.println("Enter your name");
+			String name= userInput.next();
+			System.out.println("Enter your email");
+			String email = userInput.next();
+			System.out.println("Enter your password");
+			String password = userInput.next();
+			
+			UserController  userController = new UserController();
+			
+			if(userController.Login(name, email, password) == false) {
+				System.out.println("Welcome "+name);
+			}else {
+				System.out.println("You need to register");
+			}
+			
+			
+			
+		}
+		
+		
+		
+		default ->
+		throw new IllegalArgumentException("Unexpected value: " + operations);
+		};
+		
+		
+	}
+
+}

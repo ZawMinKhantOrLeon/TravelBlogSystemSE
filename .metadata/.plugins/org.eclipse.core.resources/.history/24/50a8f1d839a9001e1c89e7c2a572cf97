@@ -1,0 +1,10 @@
+package controller;
+
+
+
+public class PostController {
+	
+	public Boolean create(String title,String image,String desctiption) {
+		
+	}
+}
