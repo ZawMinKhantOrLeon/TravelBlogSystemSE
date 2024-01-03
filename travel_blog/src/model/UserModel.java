@@ -42,6 +42,9 @@ public class UserModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		finally {
+			closeConnection();
+		}
 		
 		return check;
 	}
@@ -60,31 +63,67 @@ public class UserModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		finally {
+			closeConnection();
+		}
 		
 		return isCreated;
 	}
+	
+     public Boolean createUser(User user) {
+		
+		Boolean isCreated=false;
+		connection = DbConnection.getConnection();
+		try {
+			pstmt= connection.prepareStatement("INSERT INTO user (name,email,password) VALUES (?,?,?,?)");
+			pstmt.setString(1, user.getName());
+			pstmt.setString(2, user.getEmail());
+			pstmt.setString(3, user.getPassword());
+			pstmt.setString(4, user.getRole());
+			
+			int row =pstmt.executeUpdate();
+			if(row >0) {
+				isCreated=true;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			closeConnection();
+		}
+		
+		return isCreated;
+	    }
 	
      public List<User> showAllUser()  {
 		
         List<User> users = new ArrayList<User>();
 		connection=DbConnection.getConnection();
-		try {
-			stmt=connection.createStatement();
-			rs = stmt.executeQuery("SELECT * fROM user");
-			while(rs.next()) {
-				users.add(new User(
-							
-						rs.getLong("id"),
-						rs.getString("name"),
-						rs.getString("email"),
-						rs.getString("password"),
-						rs.getString("role")
-				));
+		
+		
+			try {
+				stmt=connection.createStatement();
+				rs = stmt.executeQuery("SELECT * fROM user");
+				while(rs.next()) {
+					users.add(new User(
+								
+							rs.getLong("id"),
+							rs.getString("name"),
+							rs.getString("email"),
+							rs.getString("password"),
+							rs.getString("role")
+					));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			finally {
+				closeConnection();
+			}
+		
 		
 		return users;
 	 }
@@ -114,11 +153,12 @@ public class UserModel {
     	Boolean isUpdated=false;
 		connection = DbConnection.getConnection();
 		try {
-			pstmt = connection.prepareStatement("UPDATE user SET name=(?) , email=(?) , password=(?) WHERE id=(?)");
+			pstmt = connection.prepareStatement("UPDATE user SET name=(?) , email=(?) , password=(?) , role =(?) WHERE id=(?)");
 			pstmt.setString(1, user.getName());
 			pstmt.setString(2, user.getEmail());
 			pstmt.setString(3, user.getPassword());
-		   	pstmt.setLong(4, user.getIt());
+		   	pstmt.setString(4, user.getRole());
+		   	pstmt.setLong(5, user.getIt());
 			
 			int row=pstmt.executeUpdate();
 			if(row >0) {
@@ -136,7 +176,34 @@ public class UserModel {
 		return isUpdated;
     }
     
-
+    public User getUserById(Long id) {
+    		User user = null;
+    		connection=DbConnection.getConnection();
+    		try {
+    			pstmt= connection.prepareStatement("SELECT id,role FROM user WHERE id = (?)");
+    			pstmt.setLong(1, id);
+    			rs = pstmt.executeQuery();
+    			if(rs.next()) {
+    				
+    				user = new User(
+    						rs.getLong("id"),
+    						rs.getString("name"),
+    						rs.getString("email"),
+    						rs.getString("password"),
+    						rs.getString("role")
+    					);
+    			}
+    		} catch (SQLException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    		finally {
+    			closeConnection();
+    		}
+    		
+    		return user;
+    	
+    }
 	
 	public void getUserInfo(User user) {
 		connection=DbConnection.getConnection();
@@ -153,6 +220,9 @@ public class UserModel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally {
+			closeConnection();
 		}
 		
 		

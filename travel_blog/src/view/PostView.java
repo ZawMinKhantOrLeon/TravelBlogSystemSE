@@ -47,6 +47,7 @@ public class PostView {
 	
 	public void searchPostByTitle(Scanner userInput) {
 			
+			userInput.nextLine();
 			System.out.println("Enter the title you want to search : ");
 			String title = userInput.nextLine();
 			List<Post> allPost=postController.searchPostByTitle(title);
@@ -55,11 +56,12 @@ public class PostView {
 	}
 	
 	public void update(Scanner userInput) {
+		userInput.nextLine();
 		System.out.println("Enter the movie Id you want to update : ");
 		Long id = userInput.nextLong();
 		Post post = postController.searchPostById(id);
 		
-		if(post.getId() == null) {
+		if(post == null) {
 			System.out.println("There is no such post");
 			return;
 		}
@@ -83,7 +85,7 @@ public class PostView {
 			case 3->{
 				System.out.println("Updating Description");
 				userInput.nextLine();
-				String description = userInput.nextLine();
+				String description = userInput.next();
 				post.setDescription(description);
 			}
 			
@@ -91,8 +93,8 @@ public class PostView {
 			throw new IllegalArgumentException("Unexpected value: " + operation);
 			}
 			
-			
-			System.out.println("Do you want to keep Updating ? yes/y no/n ");
+			userInput.nextLine();
+			System.out.println("Do you want to stop Updating ? yes/y no/n ");
 			Character decision = userInput.nextLine().charAt(0);
 			if(decision == 'y') {
 				break;

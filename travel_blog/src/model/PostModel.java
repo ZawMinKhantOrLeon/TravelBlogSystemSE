@@ -62,31 +62,67 @@ public class PostModel {
 		List<Post>  postList = new ArrayList<Post>();
 		connection = DbConnection.getConnection();
 		
-		try {
-			stmt = connection.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM POST");
-			while(rs.next()) {
-				postList.add(new Post(
-						
-						rs.getLong("id"),
-						rs.getString("title"),
-						rs.getString("image"),
-						rs.getString("description"),
-						rs.getDate("date").toLocalDate()
-					));
-				
+		
+			try {
+				stmt = connection.createStatement();
+				rs = stmt.executeQuery("SELECT * FROM POST");
+				while(rs.next()) {
+					postList.add(new Post(
+							
+							rs.getLong("id"),
+							rs.getString("title"),
+							rs.getString("image"),
+							rs.getString("description"),
+							rs.getDate("date").toLocalDate()
+						));
+					
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally {
-			closeConnection();
-		}
+			finally {
+				closeConnection();
+			}
+		
 		
 		
 		return postList;
 	}
+	
+public Post showPostById(Long id){
+		
+		
+		connection = DbConnection.getConnection();
+		
+			Post post = null;
+			try {
+				stmt = connection.createStatement();
+				rs = stmt.executeQuery("SELECT * FROM POST WHERE id = '"+ id+"';");
+				while(rs.next()) {
+					 post =new Post(
+							
+							rs.getLong("id"),
+							rs.getString("title"),
+							rs.getString("image"),
+							rs.getString("description"),
+							rs.getDate("date").toLocalDate()
+						);
+					
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			finally {
+				closeConnection();
+			}
+		
+		
+		
+		return post;
+		
+          }
 	
 	public Boolean delete(Long id) {
 		Boolean isDelete = false;

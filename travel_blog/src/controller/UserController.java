@@ -26,6 +26,12 @@ public class UserController {
 		return userModel.register(user);
 	}
 	
+	public Boolean create(String name,String email,String password,String role) {
+		
+		User user = new User(name,email,password,role);
+		return userModel.register(user);
+	}
+	
 	public List<User> showAllUser() {
 		return userModel.showAllUser();
 	}
@@ -35,8 +41,7 @@ public class UserController {
 	}
 	
 	public User getUserById(Long id) {
-		return userModel.showAllUser().stream()
-				.filter(u -> u.getIt().equals(id)).findFirst().get();
+		return userModel.getUserById(id);
 	}
 	
 	public Boolean update(User user) {

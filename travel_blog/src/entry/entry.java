@@ -22,7 +22,7 @@ public class entry {
 	private static void start(Scanner userInput){
 		while(true) {
 			
-			System.out.println("1.Login 2.Register");
+			System.out.println("1.Login 2.Register 3.Selecting Others will exist the programm");
 			Integer operations = userInput.nextInt();
 			
 				switch (operations) {
@@ -44,13 +44,17 @@ public class entry {
 					
 				}
 				default ->
-				throw new IllegalArgumentException("Unexpected value: " + operations);
+				{
+					System.out.println("Existing From Program");
+					break;
+				}
 				};
 				
 				System.out.println("Do you want to exist from program? yes/y no/n");
 				Character decision = userInput.next().charAt(0);
 				if(decision == 'y') {
 					userInput.close();
+					System.out.println("System closed");
 					break;
 				}
 			}
@@ -58,7 +62,7 @@ public class entry {
 	
 	private static void creation(Scanner userInput) {
 		while(true) {
-			System.out.print("1.Create 2.Show 3.Delete 4.Search 5.Update 6.Exist");
+			System.out.print("1.Create 2.Show 3.Delete 4.Search 5.Update");
 			
 			Integer postOperations = userInput.nextInt();
 			
@@ -79,17 +83,24 @@ public class entry {
 			}
 			
 			case 4 ->{
+				
 				postView.searchPostByTitle(userInput);
 			}
 			
 			case 5->{
 				postView.update(userInput);
 			}
-			case 6 ->{
+			default ->
+			{
+				System.out.println("Existing From Program");
 				break;
 			}
-			default ->
-			throw new IllegalArgumentException("Unexpected value: " + postOperations);
+			
+			}
+			System.out.println(" Do you want to exist from creation panel ? yes/y no/n ");
+			Character existDecision = userInput.next().charAt(0);
+			if(existDecision == 'y') {
+				break;
 			}
 			
 		}
@@ -111,7 +122,7 @@ public class entry {
 						userView.showAllUser();
 					}
 					case 2->{
-						
+						userView.userCreate(userInput);
 					}
 					
 					case 3->{
@@ -120,8 +131,10 @@ public class entry {
 					case 4 ->{
 						userView.updateUser(userInput);
 					}
-					default ->
-					throw new IllegalArgumentException("Unexpected value: " + adminUserOperation);
+					default ->{
+						System.out.println("Existing From Program");
+						break;
+					}
 					}
 					
 					System.out.println("Admin Do you want to exist from user panel ? yes/y no/n ");
@@ -136,7 +149,10 @@ public class entry {
 			}
 
 			default ->
-			throw new IllegalArgumentException("Unexpected value: " + adminDecision);
+			{
+				System.out.println("Existing From Program");
+				break;
+			}
 			}
 			System.out.println("Admin Do you want to exist from admin panel ? yes/y no/n ");
 			Character existDecision = userInput.next().charAt(0);
