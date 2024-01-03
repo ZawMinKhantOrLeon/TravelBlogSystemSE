@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Post {
 	
 	private Long id;
@@ -7,6 +9,7 @@ public class Post {
 	private String title;
 	private String image;
 	private String description;
+	private LocalDate date;
 	
 	public Post() {
 		
@@ -21,7 +24,13 @@ public class Post {
 		this.description = description;
 	}
 
-
+	public Post(String title, String image, String description,LocalDate date) {
+		super();
+		this.title = title;
+		this.image = image;
+		this.description = description;
+		this.date=date;
+	}
 
 	public Post(Long user_id, String title, String image, String description) {
 		super();
@@ -31,15 +40,13 @@ public class Post {
 		this.description = description;
 	}
 	
-	
-
-	public Post(Long id, Long user_id, String title, String image, String description) {
+	public Post(Long id, String title, String image, String description,LocalDate date) {
 		super();
 		this.id = id;
-		this.user_id = user_id;
 		this.title = title;
 		this.image = image;
 		this.description = description;
+		this.date=date;
 	}
 
 	public Long getId() {
@@ -81,6 +88,14 @@ public class Post {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+
 
 	@Override
 	public String toString() {

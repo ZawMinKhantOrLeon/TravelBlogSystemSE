@@ -1,0 +1,54 @@
+package view;
+
+import java.util.List;
+import java.util.Scanner;
+import controller.PostController;
+import model.Post;
+
+public class PostView {
+	
+	
+	public void create(Scanner userInput) {
+		userInput.nextLine();
+		System.out.println("Enter your Title");
+		String title= userInput.nextLine();
+		System.out.println("Enter your Image");
+		String image = userInput.nextLine();
+		System.out.println("Enter your Description");
+		String description = userInput.nextLine();
+		
+		PostController  postController = new PostController();
+		
+		 if(postController.create(title, image, description)) {
+			 System.out.println("Successfully Created Post");
+		 }else {
+			 System.out.println("Fail to Created Post");
+		 }
+	}
+	
+	public void showAll() {
+		PostController postController = new PostController();
+		List<Post> allPost=postController.showAllPost();
+		
+		allPost.forEach((p)->{
+			System.out.println(p.getId());
+			System.out.println(p.getTitle());
+			System.out.println(p.getImage());
+			System.out.println(p.getDescription());
+			System.out.println(p.getDate());
+		});
+	}
+	
+	public void delete(Scanner userInput) {
+		System.out.println("Enter The Id Of the Post You wanted to delete : ");
+		Long id = userInput.nextLong();
+		PostController postController = new PostController();
+		if(postController.delete(id)) {
+			System.out.println("Post Number " + id + " is deleted");
+			
+		}
+		else {
+			System.out.println("Post is fail to delete");
+		}
+	}
+}

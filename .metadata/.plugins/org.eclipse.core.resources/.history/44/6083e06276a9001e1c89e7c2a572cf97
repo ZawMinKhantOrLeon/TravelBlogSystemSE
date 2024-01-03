@@ -1,0 +1,15 @@
+package controller;
+
+import model.Post;
+import model.PostModel;
+
+public class PostController {
+	
+	public Boolean create(String title,String image,String description) {
+		
+		PostModel postModel = new PostModel();
+		Post post = new Post(title,image,description);
+		return postModel.createPost(post);
+		
+	}
+}

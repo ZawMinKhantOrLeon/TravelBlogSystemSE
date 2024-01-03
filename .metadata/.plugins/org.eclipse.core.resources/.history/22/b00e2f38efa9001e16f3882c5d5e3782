@@ -1,0 +1,63 @@
+package entry;
+
+import java.util.Scanner;
+import java.util.function.Consumer;
+
+import controller.UserController;
+import view.PostView;
+import view.UserView;
+
+
+public class entry {
+	
+	private static final PostView postView = new PostView();
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		final UserView userView= new UserView();
+		Scanner userInput = new Scanner(System.in);
+		
+		
+		
+		
+	}
+	
+	private static Consumer<Scanner> start(Scanner userInput){
+		
+	}
+	
+	private static Consumer<Scanner> creation(Scanner userInput) {
+		while(true) {
+			System.out.print("1.Create 2.Show 3.Delete 4.Search 5.Update 6.Exist");
+			
+			Integer postOperations = userInput.nextInt();
+			
+			switch (postOperations) {
+			case 1 ->{
+			
+				postView.create(userInput);
+			}
+			
+			case 2 ->{
+				
+				postView.showAll();
+			}
+			
+			case 3->{
+				
+				postView.delete(userInput);
+			}
+			
+			case 4 ->{
+				postView.searchPostByTitle(userInput);
+			}
+			case 6 ->{
+				break;
+			}
+			default ->
+			throw new IllegalArgumentException("Unexpected value: " + postOperations);
+			}
+			
+		}
+	}
+
+}
