@@ -1,7 +1,6 @@
 package controller;
 
 import java.util.List;
-
 import model.Post;
 import model.PostModel;
 
@@ -17,12 +16,10 @@ public class PostController {
 	}
 	
 	public List<Post> showAllPost(){
-		
 		return postModel.showAllPost();
 	}
 	
 	public Boolean delete(Long id) {
-		
 		return postModel.delete(id);
 	}
 	
@@ -30,5 +27,17 @@ public class PostController {
 		
 		return  postModel.showAllPost().stream()
 				.filter(p -> p.getTitle().toLowerCase().contains(cSeq)).toList();
+	}
+	
+    public Post searchPostById(Long id){
+		
+		return  postModel.showAllPost().stream()
+				.filter(p -> p.getId().equals(id)).findFirst().get();
+		
+	 }
+	
+	public Boolean update(Post post) {
+		return postModel.update(post) ;
+		
 	}
 }

@@ -18,6 +18,15 @@ public class PostModel {
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
+	private void closeConnection() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public Boolean createPost(Post post) {
 		
 		Boolean isCreated=false;
@@ -39,6 +48,9 @@ public class PostModel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally {
+			closeConnection();
 		}
 		
 		return isCreated;
@@ -68,6 +80,10 @@ public class PostModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		finally {
+			closeConnection();
+		}
+		
 		
 		return postList;
 	}
@@ -86,7 +102,40 @@ public class PostModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		finally {
+			closeConnection();
+		}
 		
 		return isDelete;
 	}
+	
+	
+	public Boolean update(Post post) {
+			
+		Boolean isUpdated=false;
+		connection = DbConnection.getConnection();
+		try {
+			pstmt = connection.prepareStatement("UPDATE POST SET title=(?) , image=(?) , description=(?) WHERE id=(?)");
+		
+			pstmt.setString(1, post.getTitle());
+			pstmt.setString(2, post.getImage());
+			pstmt.setString(3, post.getDescription());
+		   	pstmt.setLong(4, post.getId());
+			
+			int row=pstmt.executeUpdate();
+			if(row >0) {
+				isUpdated=true;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			closeConnection();
+		}
+		
+		return isUpdated;
+	}
+	
 }

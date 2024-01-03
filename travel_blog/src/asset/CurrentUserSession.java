@@ -3,6 +3,7 @@ package asset;
 public class CurrentUserSession {
 	
 	static private Long Id;
+	static private String Role;
 
 	
 	public CurrentUserSession() {
@@ -17,6 +18,12 @@ public class CurrentUserSession {
 
 	static public void setId(Long id) {
 		Id = id;
+	}
+	static public String getRole() {
+		return Role;
+	}
+	static public void setRole(String role) {
+			Role = role;
 	}
 	
 	

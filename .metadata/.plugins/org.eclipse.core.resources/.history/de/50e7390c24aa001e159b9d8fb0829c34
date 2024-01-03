@@ -1,0 +1,31 @@
+package controller;
+
+import java.util.List;
+
+import model.User;
+import model.UserModel;
+
+
+public class UserController {
+	private static final UserModel userModel = new UserModel();
+	private void storeSessionId(User user) {
+		
+		userModel.getUserInfo(user);
+	}
+	
+	public Boolean Login(String name,String email,String password) {
+		UserModel userModel = new UserModel();
+		User user = new User(name,email,password);
+		storeSessionId(user);
+		return userModel.login(user);
+	}
+	public Boolean register(String name,String email,String password) {
+		
+		User user = new User(name,email,password);
+		return userModel.register(user);
+	}
+	
+	public List<User> showAllUser() {
+		return userModel.showAllUser();
+	}
+}

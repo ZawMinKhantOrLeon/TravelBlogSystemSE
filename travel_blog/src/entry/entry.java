@@ -1,6 +1,8 @@
 package entry;
 
 import java.util.Scanner;
+
+import asset.CurrentUserSession;
 import view.PostView;
 import view.UserView;
 
@@ -15,8 +17,6 @@ public class entry {
 		Scanner userInput = new Scanner(System.in);
 		start(userInput);
 	
-		
-		
 	}
 	
 	private static void start(Scanner userInput){
@@ -31,7 +31,12 @@ public class entry {
 					
 					if(login) {
 						System.out.println("Welcome from travel blog ");
-						creation(userInput);
+						if(CurrentUserSession.getRole().equals("admin")) {
+							adminCreation(userInput);
+						}
+						else {
+							creation(userInput);
+						}
 					}
 				}
 				case 2->{
@@ -76,11 +81,67 @@ public class entry {
 			case 4 ->{
 				postView.searchPostByTitle(userInput);
 			}
+			
+			case 5->{
+				postView.update(userInput);
+			}
 			case 6 ->{
 				break;
 			}
 			default ->
 			throw new IllegalArgumentException("Unexpected value: " + postOperations);
+			}
+			
+		}
+	}
+	
+	private static void adminCreation(Scanner userInput) {
+		while(true) {
+			System.out.println("Your Role is Admin So You can \n1.Monitor User 2.Create Posts");
+			Integer adminDecision = userInput.nextInt();
+			
+			switch (adminDecision) {
+			case 1 ->{
+				while(true) {
+					System.out.println("1.Show 2.Create 3.Delete 4.Update");
+					Integer adminUserOperation= userInput.nextInt();
+					
+					switch (adminUserOperation) {
+					case 1 ->{
+						userView.showAllUser();
+					}
+					case 2->{
+						
+					}
+					
+					case 3->{
+						userView.deleteUser(userInput);
+					}
+					case 4 ->{
+						userView.updateUser(userInput);
+					}
+					default ->
+					throw new IllegalArgumentException("Unexpected value: " + adminUserOperation);
+					}
+					
+					System.out.println("Admin Do you want to exist from user panel ? yes/y no/n ");
+					Character existDecision = userInput.next().charAt(0);
+					if(existDecision == 'y') {
+						break;
+					}
+				}
+			}
+			case 2->{
+				creation(userInput);
+			}
+
+			default ->
+			throw new IllegalArgumentException("Unexpected value: " + adminDecision);
+			}
+			System.out.println("Admin Do you want to exist from admin panel ? yes/y no/n ");
+			Character existDecision = userInput.next().charAt(0);
+			if(existDecision == 'y') {
+				break;
 			}
 			
 		}

@@ -1,13 +1,16 @@
 package controller;
 
+import java.util.List;
+
 import model.User;
 import model.UserModel;
 
 
 public class UserController {
+	private static final UserModel userModel = new UserModel();
 	
 	private void storeSessionId(User user) {
-		UserModel userModel = new UserModel();
+		
 		userModel.getUserInfo(user);
 	}
 	
@@ -18,8 +21,25 @@ public class UserController {
 		return userModel.login(user);
 	}
 	public Boolean register(String name,String email,String password) {
-		UserModel userModel = new UserModel();
+		
 		User user = new User(name,email,password);
 		return userModel.register(user);
+	}
+	
+	public List<User> showAllUser() {
+		return userModel.showAllUser();
+	}
+	
+	public Boolean delete(Long id) {
+		return userModel.delete(id);
+	}
+	
+	public User getUserById(Long id) {
+		return userModel.showAllUser().stream()
+				.filter(u -> u.getIt().equals(id)).findFirst().get();
+	}
+	
+	public Boolean update(User user) {
+		return userModel.update(user);
 	}
 }
