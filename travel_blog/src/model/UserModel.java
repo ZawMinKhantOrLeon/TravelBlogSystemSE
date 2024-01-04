@@ -180,7 +180,7 @@ public class UserModel {
     		User user = null;
     		connection=DbConnection.getConnection();
     		try {
-    			pstmt= connection.prepareStatement("SELECT id,role FROM user WHERE id = (?)");
+    			pstmt= connection.prepareStatement("SELECT * FROM user WHERE id = (?)");
     			pstmt.setLong(1, id);
     			rs = pstmt.executeQuery();
     			if(rs.next()) {

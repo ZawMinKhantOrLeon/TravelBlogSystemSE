@@ -114,9 +114,7 @@ public Post showPostById(Long id){
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			finally {
-				closeConnection();
-			}
+			
 		
 		
 		
@@ -128,12 +126,24 @@ public Post showPostById(Long id){
 		Boolean isDelete = false;
 		connection = DbConnection.getConnection();
 		try {
-			pstmt= connection.prepareStatement("DELETE FROM post WHERE id=(?)");
-			pstmt.setLong(1, id);
-			Integer row = pstmt.executeUpdate();
-			if(row > 0) {
-				isDelete=true;
+			
+			Post post = showPostById(id);
+			if(post !=null ) {
+				if(post.getId() == CurrentUserSession.getId()) {
+					pstmt= connection.prepareStatement("DELETE FROM post WHERE id=(?)");
+					pstmt.setLong(1, id);
+					Integer row = pstmt.executeUpdate();
+					if(row > 0) {
+						isDelete=true;
+					}
+				}else {
+					System.out.println("This is not your post , therefore you cannot delete this post");
+				}
 			}
+			else {
+				System.out.println("There is no such post");
+			}
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

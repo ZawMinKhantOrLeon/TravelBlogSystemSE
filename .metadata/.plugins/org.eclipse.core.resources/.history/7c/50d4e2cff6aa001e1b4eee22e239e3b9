@@ -1,0 +1,71 @@
+package view;
+
+import java.util.List;
+import java.util.Scanner;
+
+import controller.AgentController;
+import model.Agent;
+import model.User;
+
+public class AgentView {
+	private static final AgentController agentController = new AgentController();
+	public void agentCreate(Scanner userInput) {
+		userInput.nextLine();
+		System.out.println("Enter agent name");
+		String name= userInput.nextLine();
+		System.out.println("Enter agent phone");
+		String phone = userInput.nextLine();
+		System.out.println("Enter agent email");
+		String email = userInput.nextLine();
+		System.out.println("Enter agent active status ? yes/y or no/n");
+		Boolean active = userInput.next().charAt(0) == 'y' ;
+		
+		 if(agentController.create(name.toLowerCase(),phone,email.toLowerCase(),active)) {
+			 System.out.println("Successfully created agent");
+		 }else {
+			 System.out.println("Fail to create agent");
+		 }
+	}
+	
+	 public void showAllAgent() {
+			
+			List<Agent> agents = agentController.showAllAgent();
+			checkEmpty(agents);
+		}
+		
+	 public void deleteUser(Scanner userInput) {
+			System.out.println("Enter the id of agent you want to delete :");
+			Long id = userInput.nextLong();
+			
+			if(agentController.delete(id)) {
+				System.out.println("Successfully deleted agent " + id);
+			}
+			else {
+				System.out.println("There is no such agent");
+			}
+		}
+	
+	
+	//utility methods
+	
+	private void showAgent(Agent agent) {
+		System.out.println("Agent id : "+agent.getId());
+		System.out.println("Agent name : "+agent.getName());
+		System.out.println("Agent phone: "+agent.getPhone());
+		System.out.println("Agent email : "+agent.getEmail());
+		System.out.println(agent.getActive() ? "Status : Agent is Available " : "Status : Not Available");
+	}
+	
+	private void checkEmpty(List<Agent> agents) {
+		
+		if(!agents.isEmpty()) {
+			agents.forEach((a)->{
+				showAgent(a);
+			});
+		}
+		else {
+			System.out.println("There is no agents");
+		}
+	}
+	
+}

@@ -68,7 +68,7 @@ public class PostView {
 		showPost(post);
 		
 		while(true) {
-			System.out.println("1.Title 2.Image 3.Description");
+			System.out.println(" Update Operations 1.Title 2.Image 3.Description");
 			Integer operation = userInput.nextInt();
 			switch (operation) {
 			case 1 ->{
@@ -115,11 +115,16 @@ public class PostView {
 	//utility methods
 	
 	private void showPost(Post post) {
-		System.out.println("Post id : "+post.getId());
-		System.out.println("Post Title : "+post.getTitle());
-		System.out.println("Post Image : "+post.getImage());
-		System.out.println("Post Description : "+post.getDescription());
-		System.out.println("Post Creation Date : "+post.getDate());
+		if(post != null) {
+			System.out.println("Post id : "+post.getId());
+			System.out.println("Post Title : "+post.getTitle());
+			System.out.println("Post Image : "+post.getImage());
+			System.out.println("Post Description : "+post.getDescription());
+			System.out.println("Post Creation Date : "+post.getDate());
+		}
+		else {
+			System.out.println("There is no such post");
+		}
 	}
 	
 	private void checkEmpty(List<Post> posts) {

@@ -8,17 +8,18 @@
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
     <fullyQualifiedTypeName name="database.DbConnection"/>
     <fullyQualifiedTypeName name="model.UserModel"/>
-    <fullyQualifiedTypeName name="model.User"/>
     <fullyQualifiedTypeName name="controller.UserController"/>
     <fullyQualifiedTypeName name="view.UserView"/>
-    <fullyQualifiedTypeName name="asset.CurrentUserSession"/>
     <fullyQualifiedTypeName name="model.PostModel"/>
     <fullyQualifiedTypeName name="java.util.Scanner"/>
     <fullyQualifiedTypeName name="view.PostView"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
-    <fullyQualifiedTypeName name="model.Post"/>
     <fullyQualifiedTypeName name="controller.PostController"/>
     <fullyQualifiedTypeName name="java.util.function.Consumer"/>
+    <fullyQualifiedTypeName name="java.util.Optional"/>
+    <fullyQualifiedTypeName name="model.Post"/>
+    <fullyQualifiedTypeName name="asset.CurrentUserSession"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="model.User"/>
 </qualifiedTypeNameHistroy>

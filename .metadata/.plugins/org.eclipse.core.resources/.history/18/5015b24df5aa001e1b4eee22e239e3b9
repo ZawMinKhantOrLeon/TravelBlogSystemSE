@@ -1,0 +1,17 @@
+package controller;
+
+import model.Agent;
+import model.AgentModel;
+import model.User;
+
+public class AgentController {
+	
+	private static final AgentModel agentModel = new AgentModel();
+	
+
+	public Boolean create(String name,String phone,String email,Boolean active) {
+		
+		Agent agent = new Agent(name,phone,email,active);
+		return  agentModel.createUser(agent);
+	}
+}

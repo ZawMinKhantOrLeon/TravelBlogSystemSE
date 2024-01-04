@@ -3,6 +3,7 @@ package entry;
 import java.util.Scanner;
 
 import asset.CurrentUserSession;
+import view.AgentView;
 import view.PostView;
 import view.UserView;
 
@@ -11,6 +12,7 @@ public class entry {
 	
 	private static final PostView postView = new PostView();
 	private static final UserView userView = new UserView();
+	private static final AgentView agentView = new AgentView();
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
@@ -62,7 +64,7 @@ public class entry {
 	
 	private static void creation(Scanner userInput) {
 		while(true) {
-			System.out.print("1.Create 2.Show 3.Delete 4.Search 5.Update");
+			System.out.print("1.Create 2.Show 3.Delete 4.Search 5.Update 6.Get into contact with Agents");
 			
 			Integer postOperations = userInput.nextInt();
 			
@@ -90,6 +92,54 @@ public class entry {
 			case 5->{
 				postView.update(userInput);
 			}
+			
+			case 6 ->{
+				agentView.showAllAgent();
+			}
+			default ->
+			{
+				System.out.println("Existing From Program");
+				break;
+			}
+			
+			}
+			System.out.println(" Do you want to exist from creation panel ? yes/y no/n ");
+			Character existDecision = userInput.next().charAt(0);
+			if(existDecision == 'y') {
+				break;
+			}
+			
+		}
+	}
+	
+	private static void agentCreation(Scanner userInput) {
+		while(true) {
+			System.out.print("1.Create 2.Show 3.Delete 4.Search 5.Update");
+			Integer postOperations = userInput.nextInt();
+			
+			switch (postOperations) {
+			case 1 ->{
+			
+					agentView.agentCreate(userInput);
+			}
+			
+			case 2 ->{
+					agentView.showAllAgent();
+			}
+			
+			case 3->{
+				
+				agentView.deleteAgent(userInput);
+			}
+			
+			case 4 ->{
+				
+				agentView.searchAgentById(userInput);
+			}
+			
+			case 5->{
+				agentView.updateAgent(userInput);
+			}
 			default ->
 			{
 				System.out.println("Existing From Program");
@@ -108,13 +158,13 @@ public class entry {
 	
 	private static void adminCreation(Scanner userInput) {
 		while(true) {
-			System.out.println("Your Role is Admin So You can \n1.Monitor User 2.Create Posts");
+			System.out.println("Your Role is Admin So You can \n1.Monitor User 2.Create Posts 3.Create Agents");
 			Integer adminDecision = userInput.nextInt();
 			
 			switch (adminDecision) {
 			case 1 ->{
 				while(true) {
-					System.out.println("1.Show 2.Create 3.Delete 4.Update");
+					System.out.println("1.Show 2.Create 3.Delete 4.Search 5.Update");
 					Integer adminUserOperation= userInput.nextInt();
 					
 					switch (adminUserOperation) {
@@ -129,6 +179,9 @@ public class entry {
 						userView.deleteUser(userInput);
 					}
 					case 4 ->{
+						userView.searchUserById(userInput);
+					}
+					case 5 ->{
 						userView.updateUser(userInput);
 					}
 					default ->{
@@ -146,6 +199,10 @@ public class entry {
 			}
 			case 2->{
 				creation(userInput);
+			}
+			
+			case 3 ->{
+				agentCreation(userInput);
 			}
 
 			default ->

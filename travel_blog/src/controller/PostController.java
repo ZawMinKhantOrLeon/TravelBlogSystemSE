@@ -30,7 +30,6 @@ public class PostController {
 	}
 	
     public Post searchPostById(Long id){
-			
     	return postModel.showPostById(id);
 		
 	 }

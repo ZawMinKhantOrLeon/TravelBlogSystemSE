@@ -1,0 +1,53 @@
+package view;
+
+import java.util.List;
+import java.util.Scanner;
+
+import controller.AgentController;
+import model.Agent;
+import model.User;
+
+public class AgentView {
+	private static final AgentController agentController = new AgentController();
+	public void agentCreate(Scanner userInput) {
+		userInput.nextLine();
+		System.out.println("Enter agent name");
+		String name= userInput.nextLine();
+		System.out.println("Enter agent phone");
+		String phone = userInput.nextLine();
+		System.out.println("Enter agent email");
+		String email = userInput.nextLine();
+		System.out.println("Enter agent active status ? yes/y or no/n");
+		Boolean active = userInput.next().charAt(0) == 'y' ;
+		
+		 if(agentController.create(name.toLowerCase(),phone,email.toLowerCase(),active)) {
+			 System.out.println("Successfully created agent");
+		 }else {
+			 System.out.println("Fail to create agent");
+		 }
+	}
+	
+	
+	
+	//utility methods
+	
+	private void showAgent(Agent agent) {
+		System.out.println("Agent id : "+agent.getId());
+		System.out.println("Agent name : "+agent.getName());
+		System.out.println("Agent phone: "+agent.getPhone());
+		System.out.println("Agent email : "+agent.getEmail());
+	}
+	
+	private void checkEmpty(List<User> users) {
+		
+		if(!users.isEmpty()) {
+			users.forEach((u)->{
+				showUser(u);
+			});
+		}
+		else {
+			System.out.println("There is no users");
+		}
+	}
+	
+}

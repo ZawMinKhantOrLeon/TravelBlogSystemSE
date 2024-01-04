@@ -11,6 +11,7 @@ public class UserView {
 	private static final UserController  userController = new UserController();
 	
 	public boolean userLogin(Scanner userInput) {
+		
 		Boolean login = false;
 		userInput.nextLine();
 		System.out.println("Enter your name");
@@ -82,6 +83,16 @@ public class UserView {
 		}
 	}
 	
+	public void searchUserById(Scanner userInput) {
+		
+		userInput.nextLine();
+		System.out.println("Enter the user id you want to search : ");
+		Long id = userInput.nextLong();
+		User user=userController.getUserById(id);
+		showUser(user);
+	
+     } 
+	
 	public void updateUser(Scanner userInput) {
 		System.out.println("Enter the user Id you want to update : ");
 		Long id = userInput.nextLong();
@@ -94,7 +105,7 @@ public class UserView {
 		showUser(user);
 		
 		while(true) {
-			System.out.println("1.name 2.email 3.password 4.role");
+			System.out.println("Update Operations 1.name 2.email 3.password 4.role");
 			Integer operation = userInput.nextInt();
 			switch (operation) {
 			case 1 ->{
@@ -143,10 +154,16 @@ public class UserView {
 	//utility methods
 	
 		private void showUser(User user) {
-			System.out.println("User id : "+user.getIt());
-			System.out.println("User name : "+user.getName());
-			System.out.println("User email: "+user.getEmail());
-			System.out.println("User password : "+user.getPassword());
+			
+			if(user !=null) {
+				System.out.println("User id : "+user.getIt());
+				System.out.println("User name : "+user.getName());
+				System.out.println("User email: "+user.getEmail());
+				System.out.println("User password : "+user.getPassword());
+			}
+			else {
+				System.out.println("There is no such user");
+			}
 		}
 		
 		private void checkEmpty(List<User> users) {
