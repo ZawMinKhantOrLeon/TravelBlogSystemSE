@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import model.User;
 import model.UserModel;
@@ -40,11 +41,15 @@ public class UserController {
 		return userModel.delete(id);
 	}
 	
-	public User getUserById(Long id) {
+	public Optional<User> getUserById(Long id) {
 		return userModel.getUserById(id);
 	}
 	
 	public Boolean update(User user) {
 		return userModel.update(user);
+	}
+	
+	public Boolean clientUpdate(User user) {
+		return userModel.clientUpdate(user);
 	}
 }

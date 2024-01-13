@@ -1,6 +1,7 @@
 package view;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import controller.PostController;
 import model.Post;
@@ -11,99 +12,126 @@ public class PostView {
 	
 	public void create(Scanner userInput) {
 		userInput.nextLine();
-		System.out.println("Enter your Title");
+		System.out.println("\033[0;33m Enter your Title \u001B[0m");
 		String title= userInput.nextLine();
-		System.out.println("Enter your Image");
+		System.out.println("\033[0;33m Enter your Image \u001B[0m");
 		String image = userInput.nextLine();
-		System.out.println("Enter your Description");
+		System.out.println("\033[0;33m Enter your Description \u001B[0m");
 		String description = userInput.nextLine();
 		
 		
 		 if(postController.create(title, image, description)) {
-			 System.out.println("Successfully Created Post");
+			 System.out.println("\033[1;32m Successfully Created Post \u001B[0m");
 		 }else {
-			 System.out.println("Fail to Created Post");
+			 System.out.println("\033[0;33m Fail to Created Post \u001B[0m");
 		 }
 	}
 	
 	public void showAll() {
 		
 		List<Post> allPost=postController.showAllPost();
-		checkEmpty(allPost);
+		Optional<Post> optionalPost = Optional.empty();
+		
+		if(!allPost.isEmpty()) {
+			for(final Post p:allPost) {
+				optionalPost = Optional.of(p);
+				if(optionalPost.isPresent()) {
+						Post post = optionalPost.get();
+						printPost(post);
+				}
+			}
+		}
 		
 	}
 	
 	public void delete(Scanner userInput) {
-		System.out.println("Enter The Id Of the Post You wanted to delete : ");
+		System.out.println("\033[0;33m Enter The Id Of the Post You wanted to delete : \u001B[0m");
 		Long id = userInput.nextLong();
 		
 		if(postController.delete(id)) {
-			System.out.println("Post Number " + id + " is deleted");
+			System.out.println("\033[1;32m Post Number " + id + " is deleted \u001B[0m");
 		}
 		else {
-			System.out.println("Post deletion fail");
+			System.out.println("\033[0;33m Post deletion fail \u001B[0m");
 		}
 	}
 	
 	public void searchPostByTitle(Scanner userInput) {
 			
 			userInput.nextLine();
-			System.out.println("Enter the title you want to search : ");
+			System.out.println("\033[0;33m Enter the title you want to search :  \u001B[0m");
 			String title = userInput.nextLine();
 			List<Post> allPost=postController.searchPostByTitle(title);
-			checkEmpty(allPost);
+			Optional<Post> optionalPost = Optional.empty();
+			
+			if(!allPost.isEmpty()) {
+				for(final Post p:allPost) {
+					optionalPost = Optional.of(p);
+					if(optionalPost.isPresent()) {
+							Post post = optionalPost.get();
+							printPost(post);
+					}
+				}
+			}
+			else {
+				System.out.println("\033[0;33m There is no such post \u001B[0m");
+			}
 		
 	}
 	
 	public void update(Scanner userInput) {
 		userInput.nextLine();
-		System.out.println("Enter the movie Id you want to update : ");
+		System.out.println("\033[0;33m Enter the movie Id you want to update : \u001B[0m ");
 		Long id = userInput.nextLong();
-		Post post = postController.searchPostById(id);
+		Optional<Post> optionalPost = postController.searchPostById(id);
 		
-		if(post == null) {
-			System.out.println("There is no such post");
+		if(!optionalPost.isPresent()) {
+			System.out.println("\033[0;33m There is no such post \u001B[0m");
 			return;
 		}
-		showPost(post);
+		Post post = optionalPost.get();
+		printPost(post);
 		
 		while(true) {
-			System.out.println(" Update Operations 1.Title 2.Image 3.Description");
+			System.out.println("\033[0;33m Update Operations 1.Title 2.Image 3.Description \u001B[0m");
 			Integer operation = userInput.nextInt();
 			switch (operation) {
 			case 1 ->{
-				System.out.println("Updating Title");
+				System.out.println("\033[0;33m Updating Title \u001B[0m");
 				String title = userInput.next();
 				post.setTitle(title);
 			}
 			case 2->{
-				System.out.println("Updating Image");
+				System.out.println("\033[0;33m Updating Image \u001B[0m");
 				String image = userInput.next();
 				post.setImage(image);
 			}
 			
 			case 3->{
-				System.out.println("Updating Description");
+				System.out.println("\033[0;33m Updating Description \u001B[0m");
 				userInput.nextLine();
 				String description = userInput.next();
 				post.setDescription(description);
 			}
 			
 			default ->
-			throw new IllegalArgumentException("Unexpected value: " + operation);
+			{
+				 System.out.println("\033[0;33m Existing from operations \u001B[0m");
+				 break;
+			}
 			}
 			
 			userInput.nextLine();
-			System.out.println("Do you want to stop Updating ? yes/y no/n ");
+			System.out.println("\033[0;33m Do you want to stop Updating ? yes/y no/n \u001B[0m");
 			Character decision = userInput.nextLine().charAt(0);
 			if(decision == 'y') {
 				break;
 			}
 		}
 		if(postController.update(post)) {
-			System.out.println("Post successfully updated");
+			System.out.println("\033[1;32m Post successfully updated \u001B[0m");
 		}else {
-			System.out.println("Post fail to update");
+			System.out.println("\033[0;33m Post fail to update \u001B[0m");
 		}
 		
 	
@@ -114,30 +142,18 @@ public class PostView {
 	
 	//utility methods
 	
-	private void showPost(Post post) {
-		if(post != null) {
-			System.out.println("Post id : "+post.getId());
-			System.out.println("Post Title : "+post.getTitle());
-			System.out.println("Post Image : "+post.getImage());
-			System.out.println("Post Description : "+post.getDescription());
-			System.out.println("Post Creation Date : "+post.getDate());
-		}
-		else {
-			System.out.println("There is no such post");
-		}
-	}
-	
-	private void checkEmpty(List<Post> posts) {
+	private void printPost(Post post) {
 		
-		if(!posts.isEmpty()) {
-			posts.forEach((p)->{
-				showPost(p);
-			});
-		}
-		else {
-			System.out.println("There is no posts");
-		}
+			System.out.println("\033[1;36m Post id : "+post.getId() + "\u001B[0m");
+			System.out.println("\033[1;36m Post author : "+post.getAuthor() + "\u001B[0m");
+			System.out.println("\033[1;36m Post Title : "+post.getTitle() + "\u001B[0m");
+			System.out.println("\033[1;36m Post Image : "+post.getImage() + "\u001B[0m");
+			System.out.println("\033[1;36m Post Description : "+post.getDescription() + "\u001B[0m");
+			System.out.println("\033[1;36m Post Creation Date : "+post.getDate() + "\u001B[0m");
+			System.out.println();
+		
 	}
+
 	
 	
 }

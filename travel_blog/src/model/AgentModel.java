@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import database.DbConnection;
 
@@ -131,9 +132,10 @@ public class AgentModel {
 			return isUpdated;
 	    }
 	 
-	 public Agent getAgentById(Long id) {
+	 public Optional<Agent> getAgentById(Long id) {
  		Agent agent = null;
  		connection=DbConnection.getConnection();
+ 		Optional<Agent> optionalAgent = Optional.empty();
  		try {
  			pstmt= connection.prepareStatement("SELECT * FROM agent WHERE id = (?)");
  			pstmt.setLong(1, id);
@@ -146,7 +148,9 @@ public class AgentModel {
  						rs.getString("phone"),
  						rs.getString("email"),
  						rs.getBoolean("active")
+ 						
  					);
+ 				optionalAgent= Optional.of(agent);
  			}
  		} catch (SQLException e) {
  			// TODO Auto-generated catch block
@@ -156,7 +160,7 @@ public class AgentModel {
  			closeConnection();
  		}
  		
- 		return agent;
+ 		return optionalAgent;
  	
  }
 	     

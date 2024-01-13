@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import model.Agent;
 import model.AgentModel;
@@ -22,7 +23,7 @@ public class AgentController {
 		return agentModel.showAllAgent();
 	}
 	
-	public Agent getAgentById(Long id) {
+	public Optional<Agent> getAgentById(Long id) {
 		return agentModel.getAgentById(id);
 	}
 	

@@ -7,9 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import asset.CurrentUserSession;
 import database.DbConnection;
+import session.CurrentUserSession;
 
 
 public class UserModel {
@@ -75,7 +76,7 @@ public class UserModel {
 		Boolean isCreated=false;
 		connection = DbConnection.getConnection();
 		try {
-			pstmt= connection.prepareStatement("INSERT INTO user (name,email,password) VALUES (?,?,?,?)");
+			pstmt= connection.prepareStatement("INSERT INTO user (name,email,password,role) VALUES (?,?,?,?)");
 			pstmt.setString(1, user.getName());
 			pstmt.setString(2, user.getEmail());
 			pstmt.setString(3, user.getPassword());
@@ -176,15 +177,43 @@ public class UserModel {
 		return isUpdated;
     }
     
-    public User getUserById(Long id) {
+    
+    public Boolean clientUpdate(User user) {
+    	Boolean isUpdated=false;
+		connection = DbConnection.getConnection();
+		try {
+			pstmt = connection.prepareStatement("UPDATE user SET name=(?) , email=(?) , password=(?)  WHERE id=(?)");
+			pstmt.setString(1, user.getName());
+			pstmt.setString(2, user.getEmail());
+			pstmt.setString(3, user.getPassword());
+		   	pstmt.setLong(4, user.getIt());
+			
+			int row=pstmt.executeUpdate();
+			if(row >0) {
+				isUpdated=true;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			closeConnection();
+		}
+		
+		return isUpdated;
+    }
+    
+    public Optional<User> getUserById(Long id) {
     		User user = null;
     		connection=DbConnection.getConnection();
+    		Optional<User> optionalUser = Optional.empty();
     		try {
     			pstmt= connection.prepareStatement("SELECT * FROM user WHERE id = (?)");
     			pstmt.setLong(1, id);
     			rs = pstmt.executeQuery();
     			if(rs.next()) {
-    				
+
     				user = new User(
     						rs.getLong("id"),
     						rs.getString("name"),
@@ -192,6 +221,7 @@ public class UserModel {
     						rs.getString("password"),
     						rs.getString("role")
     					);
+    				optionalUser = Optional.of(user);
     			}
     		} catch (SQLException e) {
     			// TODO Auto-generated catch block
@@ -201,20 +231,22 @@ public class UserModel {
     			closeConnection();
     		}
     		
-    		return user;
+    		return optionalUser;
     	
     }
 	
 	public void getUserInfo(User user) {
 		connection=DbConnection.getConnection();
 		try {
-			pstmt= connection.prepareStatement("SELECT id,role FROM user WHERE email = (?)");
+			pstmt= connection.prepareStatement("SELECT id,role,name FROM user WHERE email = (?)");
 			pstmt.setString(1, user.getEmail());
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				
 				CurrentUserSession.setId(rs.getLong("id"));
 				CurrentUserSession.setRole(rs.getString("role"));
+				CurrentUserSession.setName(rs.getString("name"));
+				
 				
 			}
 		} catch (SQLException e) {
@@ -240,6 +272,8 @@ public class UserModel {
 		
 		return pstmt;
 	}
+	
+	
 	
 	
 }

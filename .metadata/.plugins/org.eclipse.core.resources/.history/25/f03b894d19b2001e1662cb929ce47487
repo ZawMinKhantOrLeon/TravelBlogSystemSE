@@ -1,0 +1,158 @@
+package view;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
+import controller.PostController;
+import model.Post;
+
+public class PostView {
+	
+	private static final PostController postController = new PostController();
+	
+	public void create(Scanner userInput) {
+		userInput.nextLine();
+		System.out.println("Enter your Title");
+		String title= userInput.nextLine();
+		System.out.println("Enter your Image");
+		String image = userInput.nextLine();
+		System.out.println("Enter your Description");
+		String description = userInput.nextLine();
+		
+		
+		 if(postController.create(title, image, description)) {
+			 System.out.println("Successfully Created Post");
+		 }else {
+			 System.out.println("Fail to Created Post");
+		 }
+	}
+	
+	public void showAll() {
+		
+		List<Post> allPost=postController.showAllPost();
+		Optional<Post> optionalPost = Optional.empty();
+		
+		if(!allPost.isEmpty()) {
+			for(final Post p:allPost) {
+				optionalPost = Optional.of(p);
+				if(optionalPost.isPresent()) {
+						Post post = optionalPost.get();
+						printPost(post);
+				}
+			}
+		}
+		
+	}
+	
+	public void delete(Scanner userInput) {
+		System.out.println("Enter The Id Of the Post You wanted to delete : ");
+		Long id = userInput.nextLong();
+		
+		if(postController.delete(id)) {
+			System.out.println("Post Number " + id + " is deleted");
+		}
+		else {
+			System.out.println("Post deletion fail");
+		}
+	}
+	
+	public void searchPostByTitle(Scanner userInput) {
+			
+			userInput.nextLine();
+			System.out.println("Enter the title you want to search : ");
+			String title = userInput.nextLine();
+			List<Post> allPost=postController.searchPostByTitle(title);
+			Optional<Post> optionalPost = Optional.empty();
+			
+			if(!allPost.isEmpty()) {
+				for(final Post p:allPost) {
+					optionalPost = Optional.of(p);
+					if(optionalPost.isPresent()) {
+							Post post = optionalPost.get();
+							printPost(post);
+					}
+				}
+			}
+			else {
+				System.out.println("There is no such post");
+			}
+		
+	}
+	
+	public void update(Scanner userInput) {
+		userInput.nextLine();
+		System.out.println("Enter the movie Id you want to update : ");
+		Long id = userInput.nextLong();
+		Optional<Post> optionalPost = postController.searchPostById(id);
+		
+		if(!optionalPost.isPresent()) {
+			System.out.println("There is no such post");
+			return;
+		}
+		Post post = optionalPost.get();
+		printPost(post);
+		
+		while(true) {
+			System.out.println(" Update Operations 1.Title 2.Image 3.Description");
+			Integer operation = userInput.nextInt();
+			switch (operation) {
+			case 1 ->{
+				System.out.println("Updating Title");
+				String title = userInput.next();
+				post.setTitle(title);
+			}
+			case 2->{
+				System.out.println("Updating Image");
+				String image = userInput.next();
+				post.setImage(image);
+			}
+			
+			case 3->{
+				System.out.println("Updating Description");
+				userInput.nextLine();
+				String description = userInput.next();
+				post.setDescription(description);
+			}
+			
+			default ->
+			{
+				 System.out.println("Existing from operations");
+				 break;
+			}
+			}
+			
+			userInput.nextLine();
+			System.out.println("Do you want to stop Updating ? yes/y no/n ");
+			Character decision = userInput.nextLine().charAt(0);
+			if(decision == 'y') {
+				break;
+			}
+		}
+		if(postController.update(post)) {
+			System.out.println("Post successfully updated");
+		}else {
+			System.out.println("Post fail to update");
+		}
+		
+	
+	}
+	
+	
+	
+	
+	//utility methods
+	
+	private void printPost(Post post) {
+		
+			System.out.println("\033[1;36m Post id : "+post.getId());
+			System.out.println("\033[1;36m Post Title : "+post.getTitle());
+			System.out.println("\033[1;36m Post Image : "+post.getImage());
+			System.out.println("\033[1;36m Post Description : "+post.getDescription());
+			System.out.println("\033[1;36m Post Creation Date : "+post.getDate());
+			System.out.println();
+		
+	}
+
+	
+	
+}

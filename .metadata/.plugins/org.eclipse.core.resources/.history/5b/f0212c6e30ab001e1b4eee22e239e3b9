@@ -1,0 +1,45 @@
+package session;
+
+public class CurrentUserSession {
+	
+	static private Long Id;
+	static private String Role;
+	static private Boolean isLogin;
+
+	
+	public CurrentUserSession() {
+		
+	}
+
+
+	static public Long getId() {
+		return Id;
+	}
+
+
+	static public void setId(Long id) {
+		Id = id;
+	}
+	static public String getRole() {
+		return Role;
+	}
+	static public void setRole(String role) {
+			Role = role;
+	}
+
+
+	public static Boolean getIsLogin() {
+		return isLogin;
+	}
+
+
+	public static void setIsLogin(Boolean isLogin) {
+		CurrentUserSession.isLogin = isLogin;
+	}
+	
+	
+	
+	
+	
+	
+}

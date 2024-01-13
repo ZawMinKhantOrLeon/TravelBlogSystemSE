@@ -1,6 +1,8 @@
 package controller;
 
 import java.util.List;
+import java.util.Optional;
+
 import model.Post;
 import model.PostModel;
 
@@ -29,7 +31,7 @@ public class PostController {
 				.filter(p -> p.getTitle().toLowerCase().contains(cSeq)).toList();
 	}
 	
-    public Post searchPostById(Long id){
+    public Optional<Post> searchPostById(Long id){
     	return postModel.showPostById(id);
 		
 	 }

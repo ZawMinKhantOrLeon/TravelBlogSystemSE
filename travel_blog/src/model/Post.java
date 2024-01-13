@@ -10,6 +10,7 @@ public class Post {
 	private String image;
 	private String description;
 	private LocalDate date;
+	private String author;
 	
 	public Post() {
 		
@@ -40,13 +41,29 @@ public class Post {
 		this.description = description;
 	}
 	
-	public Post(Long id, String title, String image, String description,LocalDate date) {
+	
+	
+	public Post(Long id, Long user_id,String author, String title, String image, String description, LocalDate date) {
+		super();
+		this.id = id;
+		this.user_id = user_id;
+		this.author=author;
+		this.title = title;
+		this.image = image;
+		this.description = description;
+		this.date = date;
+	}
+
+
+
+	public Post(Long id,String author, String title, String image, String description,LocalDate date) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.image = image;
 		this.description = description;
 		this.date=date;
+		this.author=author;
 	}
 
 	public Long getId() {
@@ -90,6 +107,19 @@ public class Post {
 	}
 	
 	
+	
+
+	public String getAuthor() {
+		return author;
+	}
+
+
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+
 
 	public LocalDate getDate() {
 		return date;

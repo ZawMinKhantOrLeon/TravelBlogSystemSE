@@ -7,9 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import asset.CurrentUserSession;
 import database.DbConnection;
+import session.CurrentUserSession;
 
 public class PostModel {
 	
@@ -32,12 +33,13 @@ public class PostModel {
 		Boolean isCreated=false;
 		connection = DbConnection.getConnection();
 		try {
-			pstmt = connection.prepareStatement("INSERT INTO post (user_id,title,image,description) VALUES (?,?,?,?)");
+			pstmt = connection.prepareStatement("INSERT INTO post (user_id,title,image,description,author) VALUES (?,?,?,?,?)");
 		
 			pstmt.setLong(1, CurrentUserSession.getId());
 			pstmt.setString(2, post.getTitle());
 			pstmt.setString(3, post.getImage());
 			pstmt.setString(4, post.getDescription());
+			pstmt.setString(5, CurrentUserSession.getName());
 			
 			
 			int row=pstmt.executeUpdate();
@@ -70,6 +72,7 @@ public class PostModel {
 					postList.add(new Post(
 							
 							rs.getLong("id"),
+							rs.getString("author"),
 							rs.getString("title"),
 							rs.getString("image"),
 							rs.getString("description"),
@@ -90,24 +93,26 @@ public class PostModel {
 		return postList;
 	}
 	
-public Post showPostById(Long id){
+public Optional<Post> showPostById(Long id){
 		
 		
 		connection = DbConnection.getConnection();
 		
-			Post post = null;
+		Optional<Post> optionalPost= Optional.empty();
 			try {
 				stmt = connection.createStatement();
 				rs = stmt.executeQuery("SELECT * FROM POST WHERE id = '"+ id+"';");
 				while(rs.next()) {
-					 post =new Post(
-							
-							rs.getLong("id"),
-							rs.getString("title"),
-							rs.getString("image"),
-							rs.getString("description"),
-							rs.getDate("date").toLocalDate()
-						);
+					 optionalPost= Optional.of(new Post(
+								
+								rs.getLong("id"),
+								rs.getLong("user_id"),
+								rs.getString("author"),
+								rs.getString("title"),
+								rs.getString("image"),
+								rs.getString("description"),
+								rs.getDate("date").toLocalDate()
+							));
 					
 				}
 			} catch (SQLException e) {
@@ -118,18 +123,19 @@ public Post showPostById(Long id){
 		
 		
 		
-		return post;
+		return optionalPost;
 		
           }
 	
 	public Boolean delete(Long id) {
 		Boolean isDelete = false;
 		connection = DbConnection.getConnection();
+		Optional<Post> optionalPost = showPostById(id);
 		try {
 			
-			Post post = showPostById(id);
-			if(post !=null ) {
-				if(post.getId() == CurrentUserSession.getId()) {
+			if(optionalPost.isPresent()) {
+				Post post = optionalPost.get();
+				if(post.getUser_id() == CurrentUserSession.getId()) {
 					pstmt= connection.prepareStatement("DELETE FROM post WHERE id=(?)");
 					pstmt.setLong(1, id);
 					Integer row = pstmt.executeUpdate();
@@ -137,11 +143,13 @@ public Post showPostById(Long id){
 						isDelete=true;
 					}
 				}else {
-					System.out.println("This is not your post , therefore you cannot delete this post");
+					System.out.println("\033[1;31m This is not your post , therefore you cannot delete this post \033[0m");
+					return isDelete;
 				}
 			}
 			else {
-				System.out.println("There is no such post");
+				System.out.println("\033[1;31m There is no such post \033[0m");
+				return isDelete;
 			}
 		
 		} catch (SQLException e) {
